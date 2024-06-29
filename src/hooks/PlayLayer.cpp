@@ -1,6 +1,4 @@
 #include "PlayLayer.hpp"
-#include "Geode/binding/PlayLayer.hpp"
-#include "Geode/loader/Log.hpp"
 #include "UILayer.hpp"
 
 using namespace geode::prelude;
@@ -15,7 +13,6 @@ void HookPlayLayer::addObject(GameObject* obj) {
 
 void HookPlayLayer::updateStartPos(int idx) {
 
-    std::sort(m_fields->m_startPosObjects.begin(), m_fields->m_startPosObjects.end(), [](auto* a, auto* b) { return a->getPositionX() < b->getPositionX(); });
 
     if(idx < 0) idx = m_fields->m_startPosObjects.size();
     if(idx > m_fields->m_startPosObjects.size()) idx = 0;
@@ -48,9 +45,9 @@ void HookPlayLayer::createObjectsFromSetupFinished() {
 
     if(this->m_startPosObject) {
         auto currentIdx = find(m_fields->m_startPosObjects.begin(), m_fields->m_startPosObjects.end(), this->m_startPosObject) - m_fields->m_startPosObjects.begin();
-        log::info("currentIdx: {}", currentIdx);
         m_fields->m_startPosIdx = currentIdx + 1;
     }
 
+    std::sort(m_fields->m_startPosObjects.begin(), m_fields->m_startPosObjects.end(), [](auto* a, auto* b) { return a->getPositionX() < b->getPositionX(); });
     static_cast<HookUILayer*>(m_uiLayer)->updateUI();
 }
