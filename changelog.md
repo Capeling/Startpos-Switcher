@@ -1,4 +1,7 @@
 # Startpos Switcher Changelog
+## v1.0.3
+- Added don't fade on start
+- Added hide buttons
 ## v1.0.2
 - Fixed android crash caused by ignore disabled start positions
 ## v1.0.1
