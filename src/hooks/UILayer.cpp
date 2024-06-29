@@ -25,13 +25,13 @@ bool HookUILayer::init(GJBaseGameLayer* baseGame) {
 
 			m_fields->m_nextSwitcherBtn = CCMenuItemExt::createSpriteExtra(nextSpr, [this](CCObject* sender){
 				auto playLayer = static_cast<HookPlayLayer*>(PlayLayer::get());
-				playLayer->updateStartPos(playLayer->m_fields->m_StartPosIdx + 1);
+				playLayer->updateStartPos(playLayer->m_fields->m_startPosIdx + 1);
 			});
             m_fields->m_nextSwitcherBtn->setID("startpos-switcher-next-btn"_spr);
 
 			m_fields->m_prevSwitcherBtn = CCMenuItemExt::createSpriteExtra(prevSpr, [this](CCObject* sender){
 				auto playLayer = static_cast<HookPlayLayer*>(PlayLayer::get());
-				playLayer->updateStartPos(playLayer->m_fields->m_StartPosIdx - 1);
+				playLayer->updateStartPos(playLayer->m_fields->m_startPosIdx - 1);
 			});
             m_fields->m_prevSwitcherBtn->setID("startpos-switcher-prev-btn"_spr);
 
@@ -56,7 +56,7 @@ void HookUILayer::updateUI() {
             m_fields->m_switcherMenu->setVisible(true);
         }
 
-		m_fields->m_switcherLabel->setString(fmt::format("{}/{}", playLayer->m_fields->m_StartPosIdx, playLayer->m_fields->m_startPosObjects.size()).c_str());
+		m_fields->m_switcherLabel->setString(fmt::format("{}/{}", playLayer->m_fields->m_startPosIdx, playLayer->m_fields->m_startPosObjects.size()).c_str());
 		m_fields->m_switcherLabel->limitLabelWidth(40, 0.6f, 0);
 
         auto opacity = Mod::get()->getSettingValue<bool>("visible") ? 100 : 0;
@@ -74,12 +74,12 @@ void HookUILayer::keyDown(cocos2d::enumKeyCodes p0) {
 
     if(playLayer && !playLayer->m_fields->m_startPosObjects.empty()) {
         if(p0 == enumKeyCodes::KEY_Q) {
-            playLayer->updateStartPos(playLayer->m_fields->m_StartPosIdx - 1);
+            playLayer->updateStartPos(playLayer->m_fields->m_startPosIdx - 1);
             return;
         }
 
         if(p0 == enumKeyCodes::KEY_E) {
-            playLayer->updateStartPos(playLayer->m_fields->m_StartPosIdx + 1);
+            playLayer->updateStartPos(playLayer->m_fields->m_startPosIdx + 1);
             return;
         }
     }
