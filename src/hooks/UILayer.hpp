@@ -1,15 +1,13 @@
 #include <Geode/modify/UILayer.hpp>
 #include <Geode/Geode.hpp>
 
-using namespace geode::prelude;
-
-struct HookUILayer : Modify<HookUILayer, UILayer> {
+struct HookUILayer : geode::Modify<HookUILayer, UILayer> {
 	struct Fields {
 		CCMenuItemSpriteExtra* m_nextSwitcherBtn = nullptr;
 		CCMenuItemSpriteExtra* m_prevSwitcherBtn = nullptr;
-		CCLabelBMFont* m_switcherLabel = nullptr;
+		cocos2d::CCLabelBMFont* m_switcherLabel = nullptr;
 
-		CCMenu* m_switcherMenu = nullptr;
+		cocos2d::CCMenu* m_switcherMenu = nullptr;
 	};
 
 	bool init(GJBaseGameLayer* baseGame);

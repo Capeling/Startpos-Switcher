@@ -5,6 +5,7 @@ struct HookPlayLayer : geode::Modify<HookPlayLayer, PlayLayer> {
 	struct Fields {
 		std::vector<StartPosObject*> m_startPosObjects = {};
 		int m_startPosIdx = 0;
+        bool m_canSwitch = true;
 	};
 
 	void addObject(GameObject* obj);

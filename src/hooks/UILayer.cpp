@@ -1,6 +1,8 @@
 #include "UILayer.hpp"
 #include "PlayLayer.hpp"
 
+using namespace geode::prelude;
+
 bool HookUILayer::init(GJBaseGameLayer* baseGame) {
     if(!UILayer::init(baseGame))
         return false;
@@ -59,10 +61,11 @@ void HookUILayer::updateUI() {
     m_fields->m_switcherLabel->setString(fmt::format("{}/{}", playLayer->m_fields->m_startPosIdx, playLayer->m_fields->m_startPosObjects.size()).c_str());
     m_fields->m_switcherLabel->limitLabelWidth(40, 0.6f, 0);
 
-    auto opacity = Mod::get()->getSettingValue<bool>("visible") ? 100 : 0;
+    auto setting = Mod::get()->getSettingValue<double>("opacity");
+    auto opacity = setting / 100 * 255;
 
     m_fields->m_switcherMenu->stopActionByTag(69);
-    auto action = CCSequence::create(CCFadeTo::create(0.2f, 175), CCDelayTime::create(0.6), CCFadeTo::create(0.5f, opacity), nullptr);
+    auto action = CCSequence::create(CCEaseInOut::create(CCFadeTo::create(0.3f, 255), 2), CCDelayTime::create(0.5), CCEaseInOut::create(CCFadeTo::create(0.5f, opacity), 2), nullptr);
     action->setTag(69);
 
     m_fields->m_switcherMenu->runAction(action);
