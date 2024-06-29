@@ -27,7 +27,10 @@
 			"name": "Ignore Disabled",
 			"description": "Ignores start positions that have been disabled",
 			"default": false,
-			"type": "bool"
+			"type": "bool",
+			"platforms": [
+				"win"
+			]
 		}
 	},
 	"repository": "https://github.com/Capeling/Startpos-Switcher",

@@ -5,10 +5,12 @@ using namespace geode::prelude;
 
 void HookPlayLayer::addObject(GameObject* obj) {
     if(auto startPosObj = typeinfo_cast<StartPosObject*>(obj)) {
+        #ifndef GEODE_IS_ANDROID
         if(startPosObj->m_startSettings->m_disableStartPos && Mod::get()->getSettingValue<bool>("ignoreDisabled")) {
             PlayLayer::addObject(obj);
             return;
         }
+        #endif
         m_fields->m_startPosObjects.push_back(startPosObj);
     }
 
@@ -16,7 +18,6 @@ void HookPlayLayer::addObject(GameObject* obj) {
 }
 
 void HookPlayLayer::updateStartPos(int idx) {
-
 
     if(idx < 0) idx = m_fields->m_startPosObjects.size();
     if(idx > m_fields->m_startPosObjects.size()) idx = 0;
