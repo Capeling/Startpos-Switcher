@@ -1,3 +1,3 @@
-# Template Mod
+# Startpos Switcher
 
-Edit about.md to change this
+Pretty self explanatory, allows you to switch between startpos's using the Q & E keys or the buttons if on mobile
