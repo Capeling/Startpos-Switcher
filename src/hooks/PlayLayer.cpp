@@ -6,41 +6,41 @@
 using namespace geode::prelude;
 
 void HookPlayLayer::addObject(GameObject* obj) {
-		if(auto startPosObj = typeinfo_cast<StartPosObject*>(obj)) {
-			m_fields->m_startPosObjects.push_back(startPosObj);
-        }
+    if(auto startPosObj = typeinfo_cast<StartPosObject*>(obj)) {
+        m_fields->m_startPosObjects.push_back(startPosObj);
+    }
 
-		PlayLayer::addObject(obj);
+    PlayLayer::addObject(obj);
 }
 
 void HookPlayLayer::updateStartPos(int idx) {
 
-		std::sort(m_fields->m_startPosObjects.begin(), m_fields->m_startPosObjects.end(), [](auto* a, auto* b) { return a->getPositionX() < b->getPositionX(); });
+    std::sort(m_fields->m_startPosObjects.begin(), m_fields->m_startPosObjects.end(), [](auto* a, auto* b) { return a->getPositionX() < b->getPositionX(); });
 
-		if(idx < 0) idx = m_fields->m_startPosObjects.size();
-		if(idx > m_fields->m_startPosObjects.size()) idx = 0;
+    if(idx < 0) idx = m_fields->m_startPosObjects.size();
+    if(idx > m_fields->m_startPosObjects.size()) idx = 0;
 
-        if(idx == 0) {
-            m_isTestMode = false;
-            updateTestModeLabel();
-        } else {
-            m_isTestMode = true;
-            updateTestModeLabel();
-        }
+    if(idx == 0) {
+        m_isTestMode = false;
+        updateTestModeLabel();
+    } else {
+        m_isTestMode = true;
+        updateTestModeLabel();
+    }
 
-		m_currentCheckpoint = nullptr;
-		m_fields->m_startPosIdx = idx;
+    m_currentCheckpoint = nullptr;
+    m_fields->m_startPosIdx = idx;
 
-		auto object = idx > 0 ? m_fields->m_startPosObjects[idx - 1] : nullptr;
-		setStartPosObject(object);
+    auto object = idx > 0 ? m_fields->m_startPosObjects[idx - 1] : nullptr;
+    setStartPosObject(object);
 
-		if(m_isPracticeMode)
-			resetLevelFromStart();
+    if(m_isPracticeMode)
+        resetLevelFromStart();
 
-		resetLevel();
-		startMusic();
+    resetLevel();
+    startMusic();
 
-		static_cast<HookUILayer*>(m_uiLayer)->updateUI();
+    static_cast<HookUILayer*>(m_uiLayer)->updateUI();
 }
 
 void HookPlayLayer::createObjectsFromSetupFinished() {
