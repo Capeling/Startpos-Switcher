@@ -7,8 +7,8 @@
 		"ios": "2.206"
 	},
 	"id": "capeling.startpos_switcher",
-	"name": "startpos switcher",
-	"version": "v1.0.0",
+	"name": "Startpos Switcher",
+	"version": "v1.0.1",
 	"developer": "Capeling",
 	"description": "Pretty self explanatory, allows you to switch between startpos's using the Q & E keys or the arrow buttons if you are on mobile",
 	"settings": {
@@ -22,6 +22,12 @@
 				"slider-step": 1
 			},
 			"type": "float"
+		},
+		"ignoreDisabled": {
+			"name": "Ignore Disabled",
+			"description": "Ignores start positions that have been disabled",
+			"default": false,
+			"type": "bool"
 		}
 	},
 	"repository": "https://github.com/Capeling/Startpos-Switcher",

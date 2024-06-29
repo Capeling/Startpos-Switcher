@@ -5,6 +5,10 @@ using namespace geode::prelude;
 
 void HookPlayLayer::addObject(GameObject* obj) {
     if(auto startPosObj = typeinfo_cast<StartPosObject*>(obj)) {
+        if(startPosObj->m_startSettings->m_disableStartPos && Mod::get()->getSettingValue<bool>("ignoreDisabled")) {
+            PlayLayer::addObject(obj);
+            return;
+        }
         m_fields->m_startPosObjects.push_back(startPosObj);
     }
 
