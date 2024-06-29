@@ -1,19 +1,19 @@
 #include "PlayLayer.hpp"
+#include "Geode/binding/StartPosObject.hpp"
 #include "UILayer.hpp"
 
 using namespace geode::prelude;
 
 void HookPlayLayer::addObject(GameObject* obj) {
-    if(auto startPosObj = typeinfo_cast<StartPosObject*>(obj)) {
+    if (obj->m_objectID == 31) {
         #ifndef GEODE_IS_ANDROID
-        if(startPosObj->m_startSettings->m_disableStartPos && Mod::get()->getSettingValue<bool>("ignoreDisabled")) {
-            PlayLayer::addObject(obj);
-            return;
-        }
+            if(static_cast<StartPosObject*>(obj)->m_startSettings->m_disableStartPos && Mod::get()->getSettingValue<bool>("ignoreDisabled")) {
+                PlayLayer::addObject(obj);
+                return;
+            }
         #endif
-        m_fields->m_startPosObjects.push_back(startPosObj);
+        m_fields->m_startPosObjects.push_back(obj);
     }
-
     PlayLayer::addObject(obj);
 }
 
@@ -34,7 +34,7 @@ void HookPlayLayer::updateStartPos(int idx) {
     m_fields->m_startPosIdx = idx;
 
     auto object = idx > 0 ? m_fields->m_startPosObjects[idx - 1] : nullptr;
-    setStartPosObject(object);
+    setStartPosObject(static_cast<StartPosObject*>(object));
 
     if(m_isPracticeMode)
         resetLevelFromStart();
