@@ -10,6 +10,7 @@ struct HookUILayer : geode::Modify<HookUILayer, UILayer> {
 		cocos2d::CCMenu* m_switcherMenu = nullptr;
 
 		bool m_firstUpdate = true;
+		bool m_dontUpdate = false;
 	};
 
 	bool init(GJBaseGameLayer* baseGame);

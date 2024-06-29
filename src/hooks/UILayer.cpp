@@ -43,6 +43,11 @@ bool HookUILayer::init(GJBaseGameLayer* baseGame) {
         m_fields->m_switcherMenu->addChild(m_fields->m_nextSwitcherBtn);
         m_fields->m_switcherMenu->setLayout(AxisLayout::create()->setAutoScale(false)->setGap(10));
 
+        if(Mod::get()->getSettingValue<bool>("hideBtns")) {
+            m_fields->m_prevSwitcherBtn->setVisible(false);
+            m_fields->m_nextSwitcherBtn->setVisible(false);
+        }
+
         this->addChild(m_fields->m_switcherMenu);
     }
 
@@ -52,12 +57,12 @@ bool HookUILayer::init(GJBaseGameLayer* baseGame) {
 void HookUILayer::updateUI() {
     auto playLayer = static_cast<HookPlayLayer*>(PlayLayer::get());
 
-    if(playLayer->m_fields->m_startPosObjects.empty()) {
-        m_fields->m_switcherMenu->setVisible(false);
-        return;
-    } else {
-        m_fields->m_switcherMenu->setVisible(true);
-    }
+        if(playLayer->m_fields->m_startPosObjects.empty()) {
+            m_fields->m_switcherMenu->setVisible(false);
+            return;
+        } else {
+            m_fields->m_switcherMenu->setVisible(true);
+        }
 
     m_fields->m_switcherLabel->setString(fmt::format("{}/{}", playLayer->m_fields->m_startPosIdx, playLayer->m_fields->m_startPosObjects.size()).c_str());
     m_fields->m_switcherLabel->limitLabelWidth(40, 0.6f, 0);

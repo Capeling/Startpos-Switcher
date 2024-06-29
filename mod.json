@@ -29,6 +29,12 @@
 			"default": false,
 			"type": "bool"
 		},
+		"hideBtns":{
+			"name": "Hide buttons",
+			"description": "Hides the arrow buttons",
+			"default": false,
+			"type": "bool"
+		},
 		"ignoreDisabled": {
 			"name": "Ignore Disabled",
 			"description": "Ignores start positions that have been disabled",
