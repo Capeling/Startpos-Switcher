@@ -1,4 +1,5 @@
 #include "UILayer.hpp"
+#include "Geode/loader/Log.hpp"
 #include "PlayLayer.hpp"
 
 using namespace geode::prelude;
@@ -65,10 +66,15 @@ void HookUILayer::updateUI() {
     auto opacity = setting / 100 * 255;
 
     m_fields->m_switcherMenu->stopActionByTag(69);
-    auto action = CCSequence::create(CCEaseInOut::create(CCFadeTo::create(0.3f, 255), 2), CCDelayTime::create(0.5), CCEaseInOut::create(CCFadeTo::create(0.5f, opacity), 2), nullptr);
-    action->setTag(69);
+    if(m_fields->m_firstUpdate && Mod::get()->getSettingValue<bool>("hide")) {
+        m_fields->m_switcherMenu->setOpacity(opacity);
+        m_fields->m_firstUpdate = false;
+    } else {
+        auto action = CCSequence::create(CCEaseInOut::create(CCFadeTo::create(0.3f, 255), 2), CCDelayTime::create(0.5), CCEaseInOut::create(CCFadeTo::create(0.5f, opacity), 2), nullptr);
+        action->setTag(69);
+        m_fields->m_switcherMenu->runAction(action);
+    }
 
-    m_fields->m_switcherMenu->runAction(action);
 }
 
 void HookUILayer::keyDown(cocos2d::enumKeyCodes p0) {

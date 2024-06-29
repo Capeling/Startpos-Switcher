@@ -8,6 +8,8 @@ struct HookUILayer : geode::Modify<HookUILayer, UILayer> {
 		cocos2d::CCLabelBMFont* m_switcherLabel = nullptr;
 
 		cocos2d::CCMenu* m_switcherMenu = nullptr;
+
+		bool m_firstUpdate = true;
 	};
 
 	bool init(GJBaseGameLayer* baseGame);

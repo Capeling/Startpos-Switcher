@@ -8,7 +8,7 @@
 	},
 	"id": "capeling.startpos_switcher",
 	"name": "Startpos Switcher",
-	"version": "v1.0.2",
+	"version": "v1.0.3",
 	"developer": "Capeling",
 	"description": "Pretty self explanatory, allows you to switch between startpos's using the Q & E keys or the arrow buttons if you are on mobile",
 	"settings": {
@@ -22,6 +22,12 @@
 				"slider-step": 1
 			},
 			"type": "float"
+		},
+		"hide":{
+			"name": "Don't fade on start",
+			"description": "Does not make the menu fade from max opacity when you first open a level",
+			"default": false,
+			"type": "bool"
 		},
 		"ignoreDisabled": {
 			"name": "Ignore Disabled",
