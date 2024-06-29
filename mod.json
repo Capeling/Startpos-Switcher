@@ -8,7 +8,7 @@
 	},
 	"id": "capeling.startpos_switcher",
 	"name": "Startpos Switcher",
-	"version": "v1.0.1",
+	"version": "v1.0.2",
 	"developer": "Capeling",
 	"description": "Pretty self explanatory, allows you to switch between startpos's using the Q & E keys or the arrow buttons if you are on mobile",
 	"settings": {
