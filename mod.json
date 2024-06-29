@@ -10,5 +10,12 @@
 	"name": "startpos switcher",
 	"version": "v1.0.0",
 	"developer": "Capeling",
-	"description": ""
+	"description": "",
+	"settings": {
+		"visible":{
+			"name": "Visible",
+			"default": true,
+			"type": "bool"
+		}
+	}
 }

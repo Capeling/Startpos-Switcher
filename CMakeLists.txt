@@ -8,6 +8,8 @@ project(startposswitcher VERSION 1.0.0)
 
 add_library(${PROJECT_NAME} SHARED
     src/main.cpp
+    src/hooks/PlayLayer.cpp
+    src/hooks/UILayer.cpp
     # Add any extra C++ source files here
 )
 
