@@ -16,7 +16,9 @@ struct HookUILayer : geode::Modify<HookUILayer, UILayer> {
 	bool init(GJBaseGameLayer* baseGame);
 
 	#ifndef GEODE_IS_WINDOWS
+	#ifndef GEODE_IS_ANDROID
 	void keyDown(cocos2d::enumKeyCodes p0);
+	#endif
 	#else
 	void defineKeybind(const char* id, std::function<geode::ListenerResult(bool)> callback);
 	#endif

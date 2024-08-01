@@ -1,7 +1,7 @@
 # Startpos Switcher Changelog
 ## v1.0.4
 - Fixed incorrect current Startpos calculation
-- Added custom keybinds
+- Added custom keybinds (windows only)
 ## v1.0.3
 - Added don't fade on start
 - Added hide buttons
