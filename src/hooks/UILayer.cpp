@@ -54,7 +54,7 @@ bool HookUILayer::init(GJBaseGameLayer* baseGame) {
         this->addChild(m_fields->m_switcherMenu);
     }
 
-    #ifndef GEODE_IS_MACOS
+    #ifdef GEODE_IS_WINDOWS
     Loader::get()->queueInMainThread([this] {
         if(!PlayLayer::get()) return;
 
@@ -109,7 +109,9 @@ void HookUILayer::updateUI() {
 
 }
 
-#ifdef GEODE_IS_MACOS
+#ifndef GEODE_IS_WINDOWS
+
+#ifndef GEODE_IS_ANDROID
 void HookUILayer::keyDown(cocos2d::enumKeyCodes p0) {
     UILayer::keyDown(p0);
     auto playLayer = static_cast<HookPlayLayer*>(PlayLayer::get());
@@ -126,6 +128,8 @@ void HookUILayer::keyDown(cocos2d::enumKeyCodes p0) {
         }
     }
 }
+#endif
+
 #else
 
 #include <geode.custom-keybinds/include/Keybinds.hpp>
