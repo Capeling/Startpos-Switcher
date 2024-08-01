@@ -20,8 +20,11 @@ bool HookUILayer::init(GJBaseGameLayer* baseGame) {
         m_fields->m_switcherLabel->setID("startpos-switcher-label"_spr);
         m_fields->m_switcherLabel->setScale(0.6);
 
-        auto nextSpr = CCSprite::createWithSpriteFrameName("GJ_arrow_02_001.png");
-        auto prevSpr = CCSprite::createWithSpriteFrameName("GJ_arrow_02_001.png");
+        //auto gamepad = PlatformToolbox::isControllerConnected();
+        bool gamepad = false;
+
+        auto nextSpr = CCSprite::createWithSpriteFrameName(gamepad ? "controllerBtn_DPad_Right_001.png" : "GJ_arrow_02_001.png");
+        auto prevSpr = CCSprite::createWithSpriteFrameName(gamepad ? "controllerBtn_DPad_Left_001.png" : "GJ_arrow_02_001.png");
         nextSpr->setScale(0.6);
         prevSpr->setScale(0.6);
         nextSpr->setFlipX(true);
@@ -50,6 +53,28 @@ bool HookUILayer::init(GJBaseGameLayer* baseGame) {
 
         this->addChild(m_fields->m_switcherMenu);
     }
+
+    Loader::get()->queueInMainThread([this] {
+        if(!PlayLayer::get()) return;
+
+        this->defineKeybind("switch-next"_spr, [this](bool down) {
+            auto playLayer = static_cast<HookPlayLayer*>(PlayLayer::get());
+            if(down)
+                playLayer->updateStartPos(playLayer->m_fields->m_startPosIdx + 1);
+
+            return ListenerResult::Stop;
+        });
+
+        this->defineKeybind("switch-previous"_spr, [this](bool down) {
+            auto playLayer = static_cast<HookPlayLayer*>(PlayLayer::get());
+
+            if(down)
+                playLayer->updateStartPos(playLayer->m_fields->m_startPosIdx - 1);
+
+            return ListenerResult::Stop;
+        });
+
+    });
 
     return true;
 }
@@ -82,19 +107,31 @@ void HookUILayer::updateUI() {
 
 }
 
+#ifdef GEODE_IS_MACOS
 void HookUILayer::keyDown(cocos2d::enumKeyCodes p0) {
     UILayer::keyDown(p0);
     auto playLayer = static_cast<HookPlayLayer*>(PlayLayer::get());
 
     if(playLayer && !playLayer->m_fields->m_startPosObjects.empty()) {
-        if(p0 == enumKeyCodes::KEY_Q) {
+        if(p0 == enumKeyCodes::KEY_Q || p0 == enumKeyCodes::CONTROLLER_Left) {
             playLayer->updateStartPos(playLayer->m_fields->m_startPosIdx - 1);
             return;
         }
 
-        if(p0 == enumKeyCodes::KEY_E) {
+        if(p0 == enumKeyCodes::KEY_E || p0 == enumKeyCodes::CONTROLLER_Right) {
             playLayer->updateStartPos(playLayer->m_fields->m_startPosIdx + 1);
             return;
         }
     }
 }
+#else
+
+#include <geode.custom-keybinds/include/Keybinds.hpp>
+using namespace keybinds;
+
+void HookUILayer::defineKeybind(const char* id, std::function<ListenerResult(bool)> callback) {
+	PlayLayer::get()->template addEventListener<InvokeBindFilter>([this, callback](InvokeBindEvent* event) {
+		return callback(event->isDown());
+	}, id);
+}
+#endif

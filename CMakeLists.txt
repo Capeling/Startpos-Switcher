@@ -10,6 +10,7 @@ add_library(${PROJECT_NAME} SHARED
     src/main.cpp
     src/hooks/PlayLayer.cpp
     src/hooks/UILayer.cpp
+    src/KeybindHandler.cpp
     # Add any extra C++ source files here
 )
 
