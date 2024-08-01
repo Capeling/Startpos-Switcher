@@ -10,7 +10,7 @@
 	"name": "Startpos Switcher",
 	"version": "v1.0.4",
 	"developer": "Capeling",
-	"description": "Pretty self explanatory, allows you to switch between startpos's using the Q & E keys or the arrow buttons if you are on mobile",
+	"description": "Pretty self explanatory, allows you to switch between startpos's using customizable keys or the arrow buttons if you are on mobile",
 	"settings": {
 		"opacity":{
 			"name": "Opacity",
@@ -41,7 +41,8 @@
 			"default": false,
 			"type": "bool",
 			"platforms": [
-				"win"
+				"win",
+				"android"
 			]
 		}
 	},
@@ -61,7 +62,8 @@
 			"id": "geode.custom-keybinds",
 			"version": "v1.7.1",
 			"platforms": [
-				"win"
+				"win",
+				"android"
 			]
 		}
 	]

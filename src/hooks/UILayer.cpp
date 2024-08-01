@@ -54,6 +54,7 @@ bool HookUILayer::init(GJBaseGameLayer* baseGame) {
         this->addChild(m_fields->m_switcherMenu);
     }
 
+    #ifndef GEODE_IS_MACOS
     Loader::get()->queueInMainThread([this] {
         if(!PlayLayer::get()) return;
 
@@ -75,6 +76,7 @@ bool HookUILayer::init(GJBaseGameLayer* baseGame) {
         });
 
     });
+    #endif
 
     return true;
 }
