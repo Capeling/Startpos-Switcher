@@ -63,7 +63,8 @@
 			"version": "v1.7.1",
 			"platforms": [
 				"win",
-				"android"
+				"android32",
+				"android64"
 			]
 		}
 	]
