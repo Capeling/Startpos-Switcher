@@ -47,13 +47,12 @@ void HookPlayLayer::updateStartPos(int idx) {
 
 void HookPlayLayer::createObjectsFromSetupFinished() {
     PlayLayer::createObjectsFromSetupFinished();
-    
+
     std::sort(m_fields->m_startPosObjects.begin(), m_fields->m_startPosObjects.end(), [](auto* a, auto* b) { return a->getPositionX() < b->getPositionX(); });
 
-    if(m_startPosObject) {
-        auto currentIdx = std::find(m_fields->m_startPosObjects.begin(), m_fields->m_startPosObjects.end(), this->m_startPosObject);
-
-        m_fields->m_startPosIdx = static_cast<int32_t>(std::distance(m_fields->m_startPosObjects.begin(), currentIdx)) + 1;
+    if(this->m_startPosObject) {
+        auto currentIdx = find(m_fields->m_startPosObjects.begin(), m_fields->m_startPosObjects.end(), this->m_startPosObject) - m_fields->m_startPosObjects.begin();
+        m_fields->m_startPosIdx = currentIdx + 1;
     }
 
     static_cast<HookUILayer*>(m_uiLayer)->updateUI();

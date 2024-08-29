@@ -60,7 +60,7 @@ bool HookUILayer::init(GJBaseGameLayer* baseGame) {
 
         this->defineKeybind("switch-next"_spr, [this](bool down) {
             auto playLayer = static_cast<HookPlayLayer*>(PlayLayer::get());
-            if(down)
+            if(down && !playLayer->m_fields->m_startPosObjects.empty())
                 playLayer->updateStartPos(playLayer->m_fields->m_startPosIdx + 1);
 
             return ListenerResult::Stop;
@@ -69,7 +69,7 @@ bool HookUILayer::init(GJBaseGameLayer* baseGame) {
         this->defineKeybind("switch-previous"_spr, [this](bool down) {
             auto playLayer = static_cast<HookPlayLayer*>(PlayLayer::get());
 
-            if(down)
+            if(down && !playLayer->m_fields->m_startPosObjects.empty())
                 playLayer->updateStartPos(playLayer->m_fields->m_startPosIdx - 1);
 
             return ListenerResult::Stop;
