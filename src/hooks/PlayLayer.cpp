@@ -6,7 +6,7 @@ using namespace geode::prelude;
 
 void HookPlayLayer::addObject(GameObject* obj) {
     if (obj->m_objectID == 31) {
-        #ifndef GEODE_IS_ANDROID
+        #ifdef GEODE_IS_WINDOWS
             if(static_cast<StartPosObject*>(obj)->m_startSettings->m_disableStartPos && Mod::get()->getSettingValue<bool>("ignoreDisabled")) {
                 PlayLayer::addObject(obj);
                 return;

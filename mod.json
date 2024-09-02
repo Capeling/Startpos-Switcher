@@ -41,8 +41,7 @@
 			"default": false,
 			"type": "bool",
 			"platforms": [
-				"win",
-				"android"
+				"win"
 			]
 		}
 	},
