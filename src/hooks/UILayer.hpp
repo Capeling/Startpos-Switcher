@@ -1,3 +1,6 @@
+#ifndef UILAYER_HPP
+#define UILAYER_HPP
+
 #include <Geode/modify/UILayer.hpp>
 #include <Geode/Geode.hpp>
 
@@ -26,3 +29,5 @@ struct HookUILayer : geode::Modify<HookUILayer, UILayer> {
 	void updateUI();
 
 };
+
+#endif

@@ -1,4 +1,8 @@
 # Startpos Switcher Changelog
+## v1.0.6
+- Updated for 2.207
+## v1.0.5
+- Fixes crash on MacOS
 ## v1.0.4
 - Fixed incorrect current Startpos calculation
 - Added custom keybinds (windows only)

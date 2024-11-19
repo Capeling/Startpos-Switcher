@@ -1,5 +1,8 @@
-#include <Geode/modify/PlayLayer.hpp>
+#ifndef PLAYLAYER_HPP
+#define PLAYLAYER_HPP
+
 #include <Geode/Geode.hpp>
+#include <Geode/modify/PlayLayer.hpp>
 
 struct HookPlayLayer : geode::Modify<HookPlayLayer, PlayLayer> {
 	struct Fields {
@@ -13,3 +16,5 @@ struct HookPlayLayer : geode::Modify<HookPlayLayer, PlayLayer> {
 
 	void updateStartPos(int index);
 };
+
+#endif

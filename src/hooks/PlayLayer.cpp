@@ -22,6 +22,7 @@ void HookPlayLayer::updateStartPos(int idx) {
     if(idx < 0) idx = m_fields->m_startPosObjects.size();
     if(idx > m_fields->m_startPosObjects.size()) idx = 0;
 
+    
     if(idx == 0) {
         m_isTestMode = false;
         updateTestModeLabel();
@@ -33,7 +34,14 @@ void HookPlayLayer::updateStartPos(int idx) {
     m_currentCheckpoint = nullptr;
     m_fields->m_startPosIdx = idx;
 
-    auto object = idx > 0 ? m_fields->m_startPosObjects[idx - 1] : nullptr;
+    GameObject* object = nullptr;
+
+    if(true) {
+        object = idx > 0 ? m_fields->m_startPosObjects[idx - 1] : nullptr;
+    } else {
+        auto rand = std::rand() % m_fields->m_startPosObjects.size() + 1;
+        object = idx > 0 ? m_fields->m_startPosObjects[rand] : nullptr;
+    }
     setStartPosObject(static_cast<StartPosObject*>(object));
 
     if(m_isPracticeMode)

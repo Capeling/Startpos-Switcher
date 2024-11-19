@@ -1,16 +1,16 @@
 {
-	"geode": "3.4.0",
+	"geode": "4.0.0-beta.2",
 	"gd": {
-		"win": "2.206",
-		"android": "2.206",
-		"mac": "2.206",
-		"ios": "2.206"
+		"win": "2.2074",
+		"android": "2.2074",
+		"mac": "2.2074",
+		"ios": "2.2074"
 	},
 	"id": "capeling.startpos_switcher",
 	"name": "Startpos Switcher",
-	"version": "v1.0.4",
+	"version": "v1.0.6",
 	"developer": "Capeling",
-	"description": "Pretty self explanatory, allows you to switch between startpos's using customizable keys or the arrow buttons if you are on mobile",
+	"description": "Literally just a startpos switcher",
 	"settings": {
 		"opacity":{
 			"name": "Opacity",
@@ -45,7 +45,9 @@
 			]
 		}
 	},
-	"repository": "https://github.com/Capeling/Startpos-Switcher",
+	"links": {
+		"source": "https://github.com/Capeling/Startpos-Switcher"
+	},
 	"issues": {
 		"info": "If you have an issue with the mod please report it here!",
 		"url": "https://github.com/Capeling/Startpos-Switcher/issues"
@@ -60,6 +62,7 @@
 		{
 			"id": "geode.custom-keybinds",
 			"version": "v1.7.1",
+			"importance": "required",
 			"platforms": [
 				"win"
 			]

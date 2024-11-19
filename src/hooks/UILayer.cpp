@@ -14,14 +14,13 @@ bool HookUILayer::init(GJBaseGameLayer* baseGame) {
 
         m_fields->m_switcherMenu = CCMenu::create();
         m_fields->m_switcherMenu->setPosition(ccp(winSize.width / 2, director->getScreenBottom() + 17.f));
-        m_fields->m_switcherMenu->setID("startpos-switcher-menu"_spr);
+        m_fields->m_switcherMenu->setID("menu"_spr);
 
         m_fields->m_switcherLabel = CCLabelBMFont::create("0/0", "bigFont.fnt");
-        m_fields->m_switcherLabel->setID("startpos-switcher-label"_spr);
+        m_fields->m_switcherLabel->setID("idx-label"_spr);
         m_fields->m_switcherLabel->setScale(0.6);
 
-        //auto gamepad = PlatformToolbox::isControllerConnected();
-        bool gamepad = false;
+        bool gamepad = PlatformToolbox::isControllerConnected() && false;
 
         auto nextSpr = CCSprite::createWithSpriteFrameName(gamepad ? "controllerBtn_DPad_Right_001.png" : "GJ_arrow_02_001.png");
         auto prevSpr = CCSprite::createWithSpriteFrameName(gamepad ? "controllerBtn_DPad_Left_001.png" : "GJ_arrow_02_001.png");
@@ -33,13 +32,13 @@ bool HookUILayer::init(GJBaseGameLayer* baseGame) {
             auto playLayer = static_cast<HookPlayLayer*>(PlayLayer::get());
             playLayer->updateStartPos(playLayer->m_fields->m_startPosIdx + 1);
         });
-        m_fields->m_nextSwitcherBtn->setID("startpos-switcher-next-btn"_spr);
+        m_fields->m_nextSwitcherBtn->setID("next-btn"_spr);
 
         m_fields->m_prevSwitcherBtn = CCMenuItemExt::createSpriteExtra(prevSpr, [this](CCObject* sender){
             auto playLayer = static_cast<HookPlayLayer*>(PlayLayer::get());
             playLayer->updateStartPos(playLayer->m_fields->m_startPosIdx - 1);
         });
-        m_fields->m_prevSwitcherBtn->setID("startpos-switcher-prev-btn"_spr);
+        m_fields->m_prevSwitcherBtn->setID("prev-btn"_spr);
 
         m_fields->m_switcherMenu->addChild(m_fields->m_prevSwitcherBtn);
         m_fields->m_switcherMenu->addChild(m_fields->m_switcherLabel);
@@ -60,7 +59,7 @@ bool HookUILayer::init(GJBaseGameLayer* baseGame) {
 
         this->defineKeybind("switch-next"_spr, [this](bool down) {
             auto playLayer = static_cast<HookPlayLayer*>(PlayLayer::get());
-            if(down && !playLayer->m_fields->m_startPosObjects.empty())
+            if(down && !playLayer->m_fields->m_startPosObjects.empty() && playLayer->canPauseGame())
                 playLayer->updateStartPos(playLayer->m_fields->m_startPosIdx + 1);
 
             return ListenerResult::Stop;
@@ -69,7 +68,7 @@ bool HookUILayer::init(GJBaseGameLayer* baseGame) {
         this->defineKeybind("switch-previous"_spr, [this](bool down) {
             auto playLayer = static_cast<HookPlayLayer*>(PlayLayer::get());
 
-            if(down && !playLayer->m_fields->m_startPosObjects.empty())
+            if(down && !playLayer->m_fields->m_startPosObjects.empty() && playLayer->canPauseGame())
                 playLayer->updateStartPos(playLayer->m_fields->m_startPosIdx - 1);
 
             return ListenerResult::Stop;
