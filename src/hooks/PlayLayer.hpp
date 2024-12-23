@@ -13,6 +13,7 @@ struct HookPlayLayer : geode::Modify<HookPlayLayer, PlayLayer> {
 
 	void addObject(GameObject* obj);
     void createObjectsFromSetupFinished();
+	void togglePracticeMode(bool practiceMode);
 
 	void updateStartPos(int index);
 };

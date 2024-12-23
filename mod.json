@@ -42,6 +42,12 @@
 			"platforms": [
 				"win"
 			]
+		},
+		"onlyPractice": {
+			"name": "Only in Practice Mode",
+			"description": "Only enables startpos switching when on Practice Mode",
+			"default": false,
+			"type": "bool"
 		}
 	},
 	"links": {

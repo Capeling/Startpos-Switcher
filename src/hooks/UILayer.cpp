@@ -83,7 +83,7 @@ bool HookUILayer::init(GJBaseGameLayer* baseGame) {
 void HookUILayer::updateUI() {
     auto playLayer = static_cast<HookPlayLayer*>(PlayLayer::get());
 
-        if(playLayer->m_fields->m_startPosObjects.empty()) {
+        if(playLayer->m_fields->m_startPosObjects.empty() || (Mod::get()->getSettingValue<bool>("onlyPractice") && !playLayer->m_isPracticeMode)) {
             m_fields->m_switcherMenu->setVisible(false);
             return;
         } else {

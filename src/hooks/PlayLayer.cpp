@@ -18,11 +18,11 @@ void HookPlayLayer::addObject(GameObject* obj) {
 }
 
 void HookPlayLayer::updateStartPos(int idx) {
+    if (Mod::get()->getSettingValue<bool>("onlyPractice") && !m_isPracticeMode) return;
 
     if(idx < 0) idx = m_fields->m_startPosObjects.size();
     if(idx > m_fields->m_startPosObjects.size()) idx = 0;
 
-    
     if(idx == 0) {
         m_isTestMode = false;
         updateTestModeLabel();
@@ -64,4 +64,13 @@ void HookPlayLayer::createObjectsFromSetupFinished() {
     }
 
     static_cast<HookUILayer*>(m_uiLayer)->updateUI();
+}
+
+void HookPlayLayer::togglePracticeMode(bool practiceMode) {
+    if (Mod::get()->getSettingValue<bool>("onlyPractice") && !practiceMode) {
+        updateStartPos(0);
+    } else {
+        static_cast<HookUILayer*>(m_uiLayer)->updateUI();
+    }
+    PlayLayer::togglePracticeMode(practiceMode);
 }
