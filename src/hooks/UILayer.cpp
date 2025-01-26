@@ -1,6 +1,6 @@
 #include "UILayer.hpp"
-#include "Geode/loader/Log.hpp"
 #include "PlayLayer.hpp"
+#include "ModManager.hpp"
 
 using namespace geode::prelude;
 
@@ -11,14 +11,16 @@ bool HookUILayer::init(GJBaseGameLayer* baseGame) {
     if(auto playLayer = typeinfo_cast<PlayLayer*>(baseGame)) {
         auto director = CCDirector::sharedDirector();
         auto winSize = director->getWinSize();
+        auto fields = m_fields.self();
+        auto mm = ModManager::sharedState();
 
-        m_fields->m_switcherMenu = CCMenu::create();
-        m_fields->m_switcherMenu->setPosition(ccp(winSize.width / 2, director->getScreenBottom() + 17.f));
-        m_fields->m_switcherMenu->setID("menu"_spr);
+        fields->m_switcherMenu = CCMenu::create();
+        fields->m_switcherMenu->setPosition(ccp(winSize.width / 2, director->getScreenBottom() + 17.f));
+        fields->m_switcherMenu->setID("menu"_spr);
 
-        m_fields->m_switcherLabel = CCLabelBMFont::create("0/0", "bigFont.fnt");
-        m_fields->m_switcherLabel->setID("idx-label"_spr);
-        m_fields->m_switcherLabel->setScale(0.6);
+        fields->m_switcherLabel = CCLabelBMFont::create("0/0", "bigFont.fnt");
+        fields->m_switcherLabel->setID("idx-label"_spr);
+        fields->m_switcherLabel->setScale(0.6);
 
         bool gamepad = PlatformToolbox::isControllerConnected() && false;
 
@@ -28,32 +30,31 @@ bool HookUILayer::init(GJBaseGameLayer* baseGame) {
         prevSpr->setScale(0.6);
         nextSpr->setFlipX(true);
 
-        m_fields->m_nextSwitcherBtn = CCMenuItemExt::createSpriteExtra(nextSpr, [this](CCObject* sender){
+        fields->m_nextSwitcherBtn = CCMenuItemExt::createSpriteExtra(nextSpr, [this](CCObject* sender){
             auto playLayer = static_cast<HookPlayLayer*>(PlayLayer::get());
             playLayer->updateStartPos(playLayer->m_fields->m_startPosIdx + 1);
         });
-        m_fields->m_nextSwitcherBtn->setID("next-btn"_spr);
+        fields->m_nextSwitcherBtn->setID("next-btn"_spr);
 
-        m_fields->m_prevSwitcherBtn = CCMenuItemExt::createSpriteExtra(prevSpr, [this](CCObject* sender){
+        fields->m_prevSwitcherBtn = CCMenuItemExt::createSpriteExtra(prevSpr, [this](CCObject* sender){
             auto playLayer = static_cast<HookPlayLayer*>(PlayLayer::get());
             playLayer->updateStartPos(playLayer->m_fields->m_startPosIdx - 1);
         });
-        m_fields->m_prevSwitcherBtn->setID("prev-btn"_spr);
+        fields->m_prevSwitcherBtn->setID("prev-btn"_spr);
 
-        m_fields->m_switcherMenu->addChild(m_fields->m_prevSwitcherBtn);
-        m_fields->m_switcherMenu->addChild(m_fields->m_switcherLabel);
-        m_fields->m_switcherMenu->addChild(m_fields->m_nextSwitcherBtn);
-        m_fields->m_switcherMenu->setLayout(AxisLayout::create()->setAutoScale(false)->setGap(10));
+        fields->m_switcherMenu->addChild(fields->m_prevSwitcherBtn);
+        fields->m_switcherMenu->addChild(fields->m_switcherLabel);
+        fields->m_switcherMenu->addChild(fields->m_nextSwitcherBtn);
+        fields->m_switcherMenu->setLayout(AxisLayout::create()->setAutoScale(false)->setGap(10));
 
-        if(Mod::get()->getSettingValue<bool>("hideBtns")) {
-            m_fields->m_prevSwitcherBtn->setVisible(false);
-            m_fields->m_nextSwitcherBtn->setVisible(false);
+        if(mm->m_hideBtns) {
+            fields->m_prevSwitcherBtn->setVisible(false);
+            fields->m_nextSwitcherBtn->setVisible(false);
         }
 
-        this->addChild(m_fields->m_switcherMenu);
+        this->addChild(fields->m_switcherMenu);
     }
 
-    #ifdef GEODE_IS_WINDOWS
     Loader::get()->queueInMainThread([this] {
         if(!PlayLayer::get()) return;
 
@@ -75,61 +76,36 @@ bool HookUILayer::init(GJBaseGameLayer* baseGame) {
         });
 
     });
-    #endif
 
     return true;
 }
 
 void HookUILayer::updateUI() {
     auto playLayer = static_cast<HookPlayLayer*>(PlayLayer::get());
+    auto fields = m_fields.self();
+    auto mm = ModManager::sharedState();
 
         if(playLayer->m_fields->m_startPosObjects.empty()) {
-            m_fields->m_switcherMenu->setVisible(false);
+            fields->m_switcherMenu->setVisible(false);
             return;
         } else {
-            m_fields->m_switcherMenu->setVisible(true);
+            fields->m_switcherMenu->setVisible(true);
         }
 
-    m_fields->m_switcherLabel->setString(fmt::format("{}/{}", playLayer->m_fields->m_startPosIdx, playLayer->m_fields->m_startPosObjects.size()).c_str());
-    m_fields->m_switcherLabel->limitLabelWidth(40, 0.6f, 0);
+    fields->m_switcherLabel->setString(fmt::format("{}/{}", playLayer->m_fields->m_startPosIdx, playLayer->m_fields->m_startPosObjects.size()).c_str());
+    fields->m_switcherLabel->limitLabelWidth(40, 0.6f, 0);
 
-    auto setting = Mod::get()->getSettingValue<double>("opacity");
-    auto opacity = setting / 100 * 255;
-
-    m_fields->m_switcherMenu->stopActionByTag(69);
-    if(m_fields->m_firstUpdate && Mod::get()->getSettingValue<bool>("hide")) {
-        m_fields->m_switcherMenu->setOpacity(opacity);
-        m_fields->m_firstUpdate = false;
+    fields->m_switcherMenu->stopActionByTag(69);
+    if(fields->m_firstUpdate && mm->m_dontFadeOnStart) {
+        fields->m_switcherMenu->setOpacity(mm->m_opacity);
+        fields->m_firstUpdate = false;
     } else {
-        auto action = CCSequence::create(CCEaseInOut::create(CCFadeTo::create(0.3f, 255), 2), CCDelayTime::create(0.5), CCEaseInOut::create(CCFadeTo::create(0.5f, opacity), 2), nullptr);
+        auto action = CCSequence::create(CCEaseInOut::create(CCFadeTo::create(0.3f, 255), 2), CCDelayTime::create(0.5), CCEaseInOut::create(CCFadeTo::create(0.5f, mm->m_opacity), 2), nullptr);
         action->setTag(69);
-        m_fields->m_switcherMenu->runAction(action);
+        fields->m_switcherMenu->runAction(action);
     }
 
 }
-
-#ifndef GEODE_IS_WINDOWS
-
-#ifndef GEODE_IS_ANDROID
-void HookUILayer::keyDown(cocos2d::enumKeyCodes p0) {
-    UILayer::keyDown(p0);
-    auto playLayer = static_cast<HookPlayLayer*>(PlayLayer::get());
-
-    if(playLayer && !playLayer->m_fields->m_startPosObjects.empty()) {
-        if(p0 == enumKeyCodes::KEY_Q || p0 == enumKeyCodes::CONTROLLER_Left) {
-            playLayer->updateStartPos(playLayer->m_fields->m_startPosIdx - 1);
-            return;
-        }
-
-        if(p0 == enumKeyCodes::KEY_E || p0 == enumKeyCodes::CONTROLLER_Right) {
-            playLayer->updateStartPos(playLayer->m_fields->m_startPosIdx + 1);
-            return;
-        }
-    }
-}
-#endif
-
-#else
 
 #include <geode.custom-keybinds/include/Keybinds.hpp>
 using namespace keybinds;
@@ -139,4 +115,3 @@ void HookUILayer::defineKeybind(const char* id, std::function<ListenerResult(boo
 		return callback(event->isDown());
 	}, id);
 }
-#endif

@@ -1,15 +1,16 @@
 {
-	"geode": "4.0.0-beta.2",
+	"geode": "4.2.0",
 	"gd": {
 		"win": "2.2074",
+		"mac": "2.2074",
 		"android": "2.2074",
 		"ios": "2.2074"
 	},
 	"id": "capeling.startpos_switcher",
 	"name": "Startpos Switcher",
-	"version": "v1.0.6",
+	"version": "v1.0.7",
 	"developer": "Capeling",
-	"description": "Literally just a startpos switcher",
+	"description": "Just a startpos switcher",
 	"settings": {
 		"opacity":{
 			"name": "Opacity",
@@ -38,13 +39,11 @@
 			"name": "Ignore Disabled",
 			"description": "Ignores start positions that have been disabled",
 			"default": false,
-			"type": "bool",
-			"platforms": [
-				"win"
-			]
+			"type": "bool"
 		}
 	},
 	"links": {
+		"homepage": "https://x.com/capeling_",
 		"source": "https://github.com/Capeling/Startpos-Switcher"
 	},
 	"issues": {
@@ -57,14 +56,10 @@
 		"interface",
 		"utility"
 	],
-	"dependencies": [
-		{
-			"id": "geode.custom-keybinds",
+	"dependencies": {
+		"geode.custom-keybinds": {
 			"version": "v1.7.1",
-			"importance": "required",
-			"platforms": [
-				"win"
-			]
+			"importance": "required"
 		}
-	]
+	}
 }
