@@ -1,4 +1,3 @@
-#ifdef GEODE_IS_WINDOWS
 #include <geode.custom-keybinds/include/Keybinds.hpp>
 
 using namespace keybinds;
@@ -28,4 +27,3 @@ $execute {
         false
     });
 }
-#endif
