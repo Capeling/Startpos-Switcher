@@ -15,19 +15,21 @@ ModManager::ModManager() {
 }
 
 $on_mod(Loaded) {
-    listenForSettingChanges("hide", [](bool val) {
-        ModManager::sharedState()->m_dontFadeOnStart = val;
+    auto mm = ModManager::sharedState();
+    
+    listenForSettingChanges("hide", [mm](bool val) {
+        mm->m_dontFadeOnStart = val;
     });
     
-    listenForSettingChanges("hideBtns", [](bool val) {
-        ModManager::sharedState()->m_hideBtns = val;
+    listenForSettingChanges("hideBtns", [mm](bool val) {
+        mm->m_hideBtns = val;
     });
     
-    listenForSettingChanges("ignoreDisabled", [](bool val) {
-        ModManager::sharedState()->m_ignoreDisabled = val;
+    listenForSettingChanges("ignoreDisabled", [mm](bool val) {
+        mm->m_ignoreDisabled = val;
     });
     
-    listenForSettingChanges("opacity", [](double val) {
-        ModManager::sharedState()->m_opacity = val / 100 * 255;
+    listenForSettingChanges("opacity", [mm](double val) {
+        mm->m_opacity = val / 100 * 255;
     });
 }
