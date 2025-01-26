@@ -10,6 +10,6 @@ public:
     bool m_dontFadeOnStart = false;
     bool m_hideBtns = false;
     bool m_ignoreDisabled = false;
-    float m_opacity = 0.f; 
+    double m_opacity = 0;
 };
 #endif

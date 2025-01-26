@@ -27,7 +27,7 @@ $on_mod(Loaded) {
         ModManager::sharedState()->m_ignoreDisabled = val;
     });
     
-    listenForSettingChanges("m_opacity", [](double val) {
+    listenForSettingChanges("opacity", [](double val) {
         ModManager::sharedState()->m_opacity = val / 100 * 255;
     });
 }

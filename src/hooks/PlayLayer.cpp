@@ -1,7 +1,7 @@
 #include "PlayLayer.hpp"
 #include "Geode/binding/StartPosObject.hpp"
 #include "UILayer.hpp"
-#include "ModManager.hpp"
+#include "../ModManager.hpp"
 
 using namespace geode::prelude;
 
